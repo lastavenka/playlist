@@ -1,0 +1,43 @@
+.controls-set {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  border: 1px solid #666;
+  width: fit-content;
+}
+
+.controls-set__item {
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #666;
+}
+
+.controls-set__item:hover,
+.controls-set__item_state_active {
+  background-color: #e8e8e8;
+} 
+
+.controls-set__item:last-child {
+  border-right: none;
+}
+
+.controls-set__item button {
+  box-sizing: border-box;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.controls-set__item button:focus {
+  outline: none;
+
+}
