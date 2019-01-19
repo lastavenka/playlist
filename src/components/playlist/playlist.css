@@ -1,5 +1,74 @@
 .playlist {
-  width: 70%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
+  font-family: Roboto, Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+.playlist__inner {
+  width: 70%;
+}
+
+.playlist__controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagination-controls {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  align-items: baseline;
+}
+
+.pagination-controls__item {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-controls__item:hover,
+.pagination-controls__item_state_active {
+  border: 1px solid #666;
+}
+
+.pagination-controls a {
+  width: 100%;
+  text-align: center;
+  padding: 5px 0;
+  font: inherit;
+}
+
+.pagination-controls a:focus {
+  outline: none;
+  color: #000;
+}
+
+.pagination-controls__btn,
+.pagination-controls__break {
+  cursor: pointer;
+}
+
+.pagination-controls__btn_direction_next {
+  margin-left: 5px;
+}
+
+.pagination-controls__btn_direction_prev {
+  margin-right: 5px;
+}
+
+.pagination-controls__btn_state_disabled {
+  opacity: .3;
+  cursor: not-allowed;
 }
