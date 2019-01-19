@@ -33,7 +33,7 @@ class PlayListTable extends Component {
 
   render() {
     return (
-      <Table>
+      <Table className="playlist-table">
         <TableHead>
           <TableRow>
             {this.getHeaders()}

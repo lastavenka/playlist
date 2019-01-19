@@ -19,12 +19,12 @@
 }
 
 .sort-controls:before {
-  border-bottom-color: #666;
+  border-bottom-color: rgba(0, 0, 0, 0.57);
   margin-bottom: 3px;
 }
 
 .sort-controls:after {
-  border-top-color: #666;
+  border-top-color: rgba(0, 0, 0, 0.57);
 }
 
 .sort-controls.sort-controls_direction_down:before {

@@ -1,3 +1,39 @@
+.playlist-table {
+  border: 1px solid #e0e0e0
+}
+
+.playlist-table th {
+  background-color:rgba(0, 0, 0, 0.07);
+}
+
+.playlist-table td,
+.playlist-table th {
+  border-right: 1px solid #e0e0e0;
+  padding: 15px 20px;
+}
+
+.playlist-table td:first-child,
+.playlist-table th:first-child {
+  width: 30%;
+  border-right: 1px solid #e0e0e0;
+  padding: 15px 20px;
+}
+
+.playlist-table td:nth-child(2),
+.playlist-table th:nth-child(2) {
+  width: 40%;
+}
+
+.playlist-table td:nth-child(3),
+.playlist-table th:nth-child(3) {
+  width: 20%;
+}
+
+.playlist-table td:last-child,
+.playlist-table th:last-child {
+  width: 10%;
+}
+
 .playlist-table__header {
   display: flex;
   justify-content: space-between;

@@ -1,5 +1,6 @@
 .playlist {
   width: 90%;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   font-family: Roboto, Arial, sans-serif;
@@ -9,6 +10,12 @@
 
 .playlist__inner {
   width: 70%;
+}
+
+.playlist__title {
+  color: #000;
+  opacity: .87;
+  font-weight: normal;
 }
 
 .playlist__controls {
@@ -40,7 +47,7 @@
 
 .pagination-controls__item:hover,
 .pagination-controls__item_state_active {
-  border: 1px solid #666;
+  border: 1px solid #e0e0e0;
 }
 
 .pagination-controls a {

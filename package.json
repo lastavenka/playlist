@@ -2,6 +2,7 @@
   "name": "playlist",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://lastavenka.github.io/playlist",
   "dependencies": {
     "@material-ui/core": "^3.9.0",
     "react": "^16.7.0",
@@ -13,7 +14,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "eslint-config-airbnb"
@@ -27,6 +30,7 @@
   "devDependencies": {
     "eslint-config-airbnb": "^17.1.0",
     "faker": "^4.1.0",
+    "gh-pages": "^2.0.1",
     "uid": "0.0.2"
   }
 }

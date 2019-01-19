@@ -84,7 +84,7 @@ class Playlist extends Component {
 
     return <Fragment>
       <div className="playlist__inner">
-        <h2>Плейлист</h2>
+        <h2 className="playlist__title">Плейлист</h2>
         <PlayListTable data={this.getTableData()} sortBy={this.state.sortBy} reverse={this.state.reverse} handleClick={id => this.changeSorting(id)} />
         <div className="playlist__controls">
           <ReactPaginate
