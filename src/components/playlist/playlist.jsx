@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './playlist.css';
-import { Button, Paper } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import PlayListTable from "../playlist-table/playlist-table";
 import generateData from "../../data";
 
@@ -13,7 +13,7 @@ class Playlist extends Component {
       loading: true
     }
   }
-  
+
   componentDidMount() {
     this.getPlaylistData();
   }
@@ -47,7 +47,7 @@ class Playlist extends Component {
 
   showContent() {
     const { data } = this.state;
-    if(!data.length) return;
+    if (!data.length) return;
     return <PlayListTable data={data} />
   }
 

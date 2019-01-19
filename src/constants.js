@@ -4,7 +4,19 @@ const BANDS_COUNT = 20;
 const YEAR_MIN = 1986;
 const YEAR_MAX = 2019;
 
-const HEADERS = ["Исполнитель", "Песня", "Жанр", "Год"];
+const HEADERS = [{
+  label: "Исполнитель",
+  id: "band"
+}, {
+  label: "Песня",
+  id: "song"
+}, {
+  label: "Жанр",
+  id: "genre"
+}, {
+  label: "Год",
+  id: "year"
+}];
 
 export {
   GENRES_COUNT,

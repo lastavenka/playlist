@@ -1,0 +1,9 @@
+.playlist-table__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playlist-table__header .sort-controls {
+  margin-left: 20px;
+}
