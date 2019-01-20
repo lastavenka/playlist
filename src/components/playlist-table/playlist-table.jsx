@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import SortControls from "../sort-controls/sort-controls";
-import { HEADERS } from "../../constants";
+import { PLAYLIST_HEADERS } from "../../constants";
 import uid from "uid";
 import './playlist-table.css';
 
 class PlayListTable extends Component {
   getHeaders() {
-    return HEADERS.map(header => <TableCell align="left" key={uid()}>
+    return PLAYLIST_HEADERS.map(header => <TableCell align="left" key={uid()}>
       <div className="playlist-table__header">
         {header.label}
         <SortControls

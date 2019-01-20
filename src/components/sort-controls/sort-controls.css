@@ -21,6 +21,7 @@
 .sort-controls:before {
   border-bottom-color: rgba(0, 0, 0, 0.57);
   margin-bottom: 3px;
+  
 }
 
 .sort-controls:after {

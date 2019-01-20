@@ -1,0 +1,14 @@
+.filters {
+  width: 25%;
+}
+
+.filters__title {
+  color: #000;
+  opacity: .87;
+  font-weight: normal;
+}
+
+.filters__select {
+  width: 100%;
+  margin-bottom: 30px;
+}

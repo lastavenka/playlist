@@ -20,7 +20,7 @@
 .controls-set__item:hover,
 .controls-set__item_state_active {
   background-color: rgba(0, 0, 0, 0.07);
-} 
+}
 
 .controls-set__item:last-child {
   border-right: none;

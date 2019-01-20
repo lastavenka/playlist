@@ -12,9 +12,9 @@ const SortControls = props => {
     return className;
   }
 
-    return (
-      <button className={defineClass()} onClick={() => props.handleClick(props.sortBy)} />
-    );
+  return (
+    <button className={defineClass()} onClick={() => props.handleClick(props.sortBy)} />
+  );
 }
 
 export default SortControls;

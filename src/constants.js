@@ -1,10 +1,10 @@
 const GENRES_COUNT = 10;
-const SONGS_COUNT = 200;
-const BANDS_COUNT = 20;
+const SONGS_COUNT = 500;
+const BANDS_COUNT = 50;
 const YEAR_MIN = 1986;
 const YEAR_MAX = 2019;
 
-const HEADERS = [{
+const PLAYLIST_HEADERS = [{
   label: "Исполнитель",
   id: "band"
 }, {
@@ -18,9 +18,20 @@ const HEADERS = [{
   id: "year"
 }];
 
-const ROWS_COUNT = [10, 25, 50, 100];
-const DEFAULT_ROWS_COUNT = 10;
-const DEFAULT_SORT_BY = "band";
+const PLAYLIST_FILTERS = [{
+  label: "Исполнитель",
+  id: "band"
+}, {
+  label: "Жанр",
+  id: "genre"
+}, {
+  label: "Год",
+  id: "year"
+}];
+
+const PLAYLIST_ROWS_COUNT = [10, 25, 50, 100];
+const PLAYLIST_DEFAULT_ROWS_COUNT = 10;
+const PLAYLIST_DEFAULT_SORT_BY = "band";
 
 export {
   GENRES_COUNT,
@@ -28,8 +39,9 @@ export {
   BANDS_COUNT,
   YEAR_MIN,
   YEAR_MAX,
-  HEADERS,
-  ROWS_COUNT,
-  DEFAULT_ROWS_COUNT,
-  DEFAULT_SORT_BY
+  PLAYLIST_HEADERS,
+  PLAYLIST_FILTERS,
+  PLAYLIST_ROWS_COUNT,
+  PLAYLIST_DEFAULT_ROWS_COUNT,
+  PLAYLIST_DEFAULT_SORT_BY
 };

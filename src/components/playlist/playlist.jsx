@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import './playlist.css';
 import PlayListTable from "../playlist-table/playlist-table";
+import Filters from "../filters/filters";
 import ControlsSet from "../controls-set/controls-set";
 import generateData from "../../data";
-import { DEFAULT_ROWS_COUNT, DEFAULT_SORT_BY, ROWS_COUNT } from "../../constants";
+import { PLAYLIST_DEFAULT_ROWS_COUNT, PLAYLIST_DEFAULT_SORT_BY, PLAYLIST_ROWS_COUNT, PLAYLIST_FILTERS } from "../../constants";
 import ReactPaginate from 'react-paginate';
 
 class Playlist extends Component {
@@ -13,10 +14,11 @@ class Playlist extends Component {
       data: [],
       error: false,
       loading: true,
-      rows: DEFAULT_ROWS_COUNT,
+      rows: PLAYLIST_DEFAULT_ROWS_COUNT,
       currentPage: 1,
-      sortBy: DEFAULT_SORT_BY,
-      reverse: false
+      sortBy: PLAYLIST_DEFAULT_SORT_BY,
+      reverse: false,
+      activeFilters: []
     }
   }
 
@@ -51,16 +53,60 @@ class Playlist extends Component {
     if (this.state.loading) return <span className="playlist__error">Loading...</span>;
   }
 
-  getTableData() {
-    const sortedData = this.sortData();
-    const slicedData = this.sliceData(sortedData)
+  decorateTableData(data) {
+    const sortedData = this.sortData(data);
+    const slicedData = this.sliceData(sortedData);
+
     return slicedData;
   }
 
-  sortData() {
-    const { data, sortBy, reverse } = this.state;
-    if (!data.length) return;
+  getFilters(data) {
+    let filtersList = [];
+    let filtersIds = [];
 
+    PLAYLIST_FILTERS.forEach(filter => {
+      filtersList.push({ id: filter.id, label: filter.label, items: [] });
+      filtersIds.push(filter.id);
+    });
+
+    this.state.data.forEach(item => {
+      for (let key in item) {
+        if (!filtersIds.includes(key)) continue;
+        const currentFilter = filtersList.find(filter => filter.id === key);
+        currentFilter.items.push(item[key]);
+      }
+    })
+
+    filtersList.forEach(filter => {
+      const uniqueValues = new Set(filter.items);
+
+      filter.items = [...uniqueValues];
+      if (filter.id === "year") {
+        filter.items.sort();
+      } else {
+        filter.items.sort((a, b) => a.localeCompare(b));
+      }
+
+      filter.items.unshift("все");
+    })
+
+    return filtersList;
+  }
+
+  filterData() {
+    const { data, activeFilters } = this.state;
+
+    if (!activeFilters.length) {
+      return data;
+    }
+    return activeFilters.reduce((arr, currentfilter) => {
+
+      return arr.filter(item => item[currentfilter.id] === currentfilter.value)
+    }, data);
+  }
+
+  sortData(data) {
+    const { sortBy, reverse } = this.state;
     let sortedData = [];
 
     if (sortBy === "year") {
@@ -79,16 +125,20 @@ class Playlist extends Component {
   }
 
   showContent() {
-    const { data, rows, currentPage } = this.state;
+    const { data, rows, currentPage, activeFilters } = this.state;
     if (!data.length) return;
+
+    const filteredData = this.filterData();
+    const filtersList = this.getFilters(filteredData);
+    const tableData = this.decorateTableData(filteredData);
 
     return <Fragment>
       <div className="playlist__inner">
         <h2 className="playlist__title">Плейлист</h2>
-        <PlayListTable data={this.getTableData()} sortBy={this.state.sortBy} reverse={this.state.reverse} handleClick={id => this.changeSorting(id)} />
+        <PlayListTable data={tableData} sortBy={this.state.sortBy} reverse={this.state.reverse} handleClick={id => this.changeSorting(id)} />
         <div className="playlist__controls">
           <ReactPaginate
-            pageCount={data.length / rows}
+            pageCount={filteredData.length / rows}
             pageRangeDisplayed={2}
             marginPagesDisplayed={1}
             forcePage={currentPage - 1}
@@ -103,10 +153,14 @@ class Playlist extends Component {
             disabledClassName="pagination-controls__btn_state_disabled"
             breakClassName="pagination-controls__break"
           />
-          <ControlsSet items={ROWS_COUNT} active={rows} handleClick={rows => this.changeRowsCount(rows)} />
+          <ControlsSet items={PLAYLIST_ROWS_COUNT} active={rows} handleClick={rows => this.changeRowsCount(rows)} />
         </div>
       </div>
-      {/* <PlaylistFilters /> */}
+      <Filters
+        filters={filtersList}
+        activeFilters={activeFilters}
+        onChange={(value, id) => this.changeFilter(value, id)}
+      />
     </Fragment>
   }
 
@@ -128,12 +182,25 @@ class Playlist extends Component {
     this.setState({ reverse: !this.state.reverse })
   }
 
+  changeFilter(id, value) {
+    let activeFilters = this.state.activeFilters;
+    const currentFilter = activeFilters.find(filter => filter.id === id);
+
+    if (currentFilter) {
+      const index = activeFilters.indexOf(currentFilter);
+      value === "все" ? activeFilters.splice(index, 1) : (activeFilters[index].value = value);
+    } else {
+      activeFilters.push({ id: id, value: value });
+    }
+    this.setState({ activeFilters })
+  }
+
   render() {
     return (
       <section className="playlist">
-          {this.showError()}
-          {this.showSpinner()}
-          {this.showContent()}
+        {this.showError()}
+        {this.showSpinner()}
+        {this.showContent()}
       </section>
     );
   }
