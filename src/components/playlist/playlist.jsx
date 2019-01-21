@@ -1,11 +1,17 @@
-import React, { Component, Fragment } from 'react';
-import './playlist.css';
+import React, { Component, Fragment } from "react";
+import "./playlist.css";
 import PlayListTable from "../playlist-table/playlist-table";
 import Filters from "../filters/filters";
 import ControlsSet from "../controls-set/controls-set";
+import Spinner from "../spinner/spinner";
 import generateData from "../../data";
-import { PLAYLIST_DEFAULT_ROWS_COUNT, PLAYLIST_DEFAULT_SORT_BY, PLAYLIST_ROWS_COUNT, PLAYLIST_FILTERS } from "../../constants";
-import ReactPaginate from 'react-paginate';
+import {
+  PLAYLIST_DEFAULT_ROWS_COUNT,
+  PLAYLIST_DEFAULT_SORT_BY,
+  PLAYLIST_ROWS_COUNT,
+  PLAYLIST_FILTERS
+} from "../../constants";
+import ReactPaginate from "react-paginate";
 
 class Playlist extends Component {
   constructor(props) {
@@ -19,7 +25,7 @@ class Playlist extends Component {
       sortBy: PLAYLIST_DEFAULT_SORT_BY,
       reverse: false,
       activeFilters: []
-    }
+    };
   }
 
   componentDidMount() {
@@ -29,28 +35,30 @@ class Playlist extends Component {
   getPlaylistData() {
     generateData()
       .then(res => this.handleResponse(res))
-      .catch(err => this.setError("Something went wrong, please try agein later"));
+      .catch(err =>
+        this.setError("Something went wrong, please try agein later")
+      );
   }
 
   handleResponse(res) {
     if (res.status === 200) {
       this.setState({ data: JSON.parse(res.data), loading: false });
     } else {
-      this.setError("Something went wrong, please try agein later")
+      this.setError("Something went wrong, please try agein later");
     }
   }
 
   setError(error = "") {
-    this.setState({ error })
+    this.setState({ error });
   }
 
   showError() {
     const { error } = this.state;
-    if (error) return <span className="playlist__error">{error}</span>
+    if (error) return <span className="playlist__error">{error}</span>;
   }
 
   showSpinner() {
-    if (this.state.loading) return <span className="playlist__error">Loading...</span>;
+    if (this.state.loading) return <Spinner text="Идет загрузка..." />;
   }
 
   decorateTableData(data) {
@@ -75,7 +83,7 @@ class Playlist extends Component {
         const currentFilter = filtersList.find(filter => filter.id === key);
         currentFilter.items.push(item[key]);
       }
-    })
+    });
 
     filtersList.forEach(filter => {
       const uniqueValues = new Set(filter.items);
@@ -86,9 +94,8 @@ class Playlist extends Component {
       } else {
         filter.items.sort((a, b) => a.localeCompare(b));
       }
-
       filter.items.unshift("все");
-    })
+    });
 
     return filtersList;
   }
@@ -100,8 +107,7 @@ class Playlist extends Component {
       return data;
     }
     return activeFilters.reduce((arr, currentfilter) => {
-
-      return arr.filter(item => item[currentfilter.id] === currentfilter.value)
+      return arr.filter(item => item[currentfilter.id] === currentfilter.value);
     }, data);
   }
 
@@ -110,9 +116,15 @@ class Playlist extends Component {
     let sortedData = [];
 
     if (sortBy === "year") {
-      sortedData = data.sort((a, b) => reverse ? (a.year - b.year) : (b.year - a.year));
+      sortedData = data.sort((a, b) =>
+        reverse ? a.year - b.year : b.year - a.year
+      );
     } else {
-      sortedData = data.sort((a, b) => reverse ? b[sortBy].localeCompare(a[sortBy]) : a[sortBy].localeCompare(b[sortBy]));
+      sortedData = data.sort((a, b) =>
+        reverse
+          ? b[sortBy].localeCompare(a[sortBy])
+          : a[sortBy].localeCompare(b[sortBy])
+      );
     }
 
     return sortedData;
@@ -125,17 +137,46 @@ class Playlist extends Component {
   }
 
   showContent() {
-    const { data, rows, currentPage, activeFilters } = this.state;
+    const { data, activeFilters } = this.state;
     if (!data.length) return;
 
     const filteredData = this.filterData();
     const filtersList = this.getFilters(filteredData);
+
+    return (
+      <Fragment>
+        <div className="playlist__inner">
+          <h2 className="playlist__title">Плейлист</h2>
+          {this.showTable(filteredData)}
+        </div>
+        <Filters
+          filters={filtersList}
+          activeFilters={activeFilters}
+          onChange={(value, id) => this.changeFilter(value, id)}
+        />
+      </Fragment>
+    );
+  }
+
+  showTable(filteredData) {
+    if (!filteredData.length)
+      return (
+        <span>
+          Нет данных для отображения. Попробуйте изменить фильтр поиска.
+        </span>
+      );
+
+    const { rows, currentPage } = this.state;
     const tableData = this.decorateTableData(filteredData);
 
-    return <Fragment>
-      <div className="playlist__inner">
-        <h2 className="playlist__title">Плейлист</h2>
-        <PlayListTable data={tableData} sortBy={this.state.sortBy} reverse={this.state.reverse} handleClick={id => this.changeSorting(id)} />
+    return (
+      <Fragment>
+        <PlayListTable
+          data={tableData}
+          sortBy={this.state.sortBy}
+          reverse={this.state.reverse}
+          handleClick={id => this.changeSorting(id)}
+        />
         <div className="playlist__controls">
           <ReactPaginate
             pageCount={filteredData.length / rows}
@@ -153,15 +194,14 @@ class Playlist extends Component {
             disabledClassName="pagination-controls__btn_state_disabled"
             breakClassName="pagination-controls__break"
           />
-          <ControlsSet items={PLAYLIST_ROWS_COUNT} active={rows} handleClick={rows => this.changeRowsCount(rows)} />
+          <ControlsSet
+            items={PLAYLIST_ROWS_COUNT}
+            active={rows}
+            handleClick={rows => this.changeRowsCount(rows)}
+          />
         </div>
-      </div>
-      <Filters
-        filters={filtersList}
-        activeFilters={activeFilters}
-        onChange={(value, id) => this.changeFilter(value, id)}
-      />
-    </Fragment>
+      </Fragment>
+    );
   }
 
   changeSorting(sortBy) {
@@ -170,16 +210,16 @@ class Playlist extends Component {
   }
 
   changePage({ selected }) {
-    this.setState({ currentPage: selected + 1 })
+    this.setState({ currentPage: selected + 1 });
   }
 
   changeRowsCount(rows) {
     if (rows === this.state.rows) return;
-    this.setState({ rows, currentPage: 1 })
+    this.setState({ rows, currentPage: 1 });
   }
 
   toggleSortDirection() {
-    this.setState({ reverse: !this.state.reverse })
+    this.setState({ reverse: !this.state.reverse });
   }
 
   changeFilter(id, value) {
@@ -188,11 +228,13 @@ class Playlist extends Component {
 
     if (currentFilter) {
       const index = activeFilters.indexOf(currentFilter);
-      value === "все" ? activeFilters.splice(index, 1) : (activeFilters[index].value = value);
+      value === "все"
+        ? activeFilters.splice(index, 1)
+        : (activeFilters[index].value = value);
     } else {
       activeFilters.push({ id: id, value: value });
     }
-    this.setState({ activeFilters })
+    this.setState({ activeFilters });
   }
 
   render() {
