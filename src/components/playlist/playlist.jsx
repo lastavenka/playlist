@@ -229,13 +229,12 @@ class Playlist extends Component {
   changeFilter(id, value) {
     let activeFilters = this.state.activeFilters;
     const currentFilter = activeFilters.find(filter => filter.id === id);
-
     if (currentFilter) {
       const index = activeFilters.indexOf(currentFilter);
       value === "все"
         ? activeFilters.splice(index, 1)
         : (activeFilters[index].value = value);
-    } else {
+    } else if (value !== "все") {
       activeFilters.push({ id: id, value: value });
     }
     this.setState({ activeFilters, currentPage: 1 });
