@@ -6,7 +6,7 @@ Notes:
 
 * Material-UI package is used for styling (although I have experiense in creating of UI components from the scratch).
 
-* Data for the table is generated randomly and fetch request delay is imitated by timeout setting.
+* Data for the table is fetched from a small test server, that has been created by me with Node.js for this project. Data is generated randomly for each request.
 
 * All components are covered by unit tests.
 

@@ -1,5 +1,4 @@
 import PlayList from "./playlist";
-import generateData from "../../data";
 
 describe("PlayList", () => {
   describe("render", () => {
@@ -21,21 +20,10 @@ describe("PlayList", () => {
   });
 
   describe("getPlaylistData", () => {
-    it("should call generateData()", () => {
-      const instance = shallow(<PlayList />).instance();
-      instance.generateData = jest.fn().mockImplementation(() => {
-        return new Promise((resolve, reject) => {
-          resolve("response");
-        });
-      });
-      instance.getPlaylistData();
-      expect(instance.generateData).toHaveBeenCalled();
-    });
-
     it("should call handleResponse() if promise resolved", async () => {
       const instance = shallow(<PlayList />).instance();
       instance.handleResponse = jest.fn();
-      instance.generateData = jest.fn().mockImplementation(() => {
+      window.fetch = jest.fn().mockImplementation(() => {
         return new Promise((resolve, reject) => {
           resolve("response");
         });
@@ -47,7 +35,7 @@ describe("PlayList", () => {
     it("should not call handleResponse() if promise rejected", async () => {
       const instance = shallow(<PlayList />).instance();
       instance.handleResponse = jest.fn();
-      instance.generateData = jest.fn().mockImplementation(() => {
+      window.fetch = jest.fn().mockImplementation(() => {
         return new Promise((resolve, reject) => {
           reject();
         });
@@ -72,23 +60,26 @@ describe("PlayList", () => {
   });
 
   describe("handleResponse", () => {
-    it("should set data in state if status is 200", () => {
+    it("should set data in state if status is 200", async () => {
       const data = [{ key: "value" }];
       const res = {
         status: 200,
-        data: JSON.stringify(data)
+        json: jest
+          .fn()
+          .mockImplementation(
+            () => new Promise((resolve, reject) => resolve(data))
+          )
       };
       const instance = shallow(<PlayList />).instance();
       instance.setState({ data: [] });
-      instance.handleResponse(res);
+      await instance.handleResponse(res);
       expect(instance.state.data).toEqual(data);
     });
 
     it("should not set data in state if status is not 200", () => {
       const data = [{ key: "value" }];
       const res = {
-        status: 300,
-        data: JSON.stringify(data)
+        status: 300
       };
       const instance = shallow(<PlayList />).instance();
       instance.setState({ data: [] });
@@ -99,8 +90,7 @@ describe("PlayList", () => {
     it("should call setError() if status is not 200", () => {
       const data = [{ key: "value" }];
       const res = {
-        status: 300,
-        data: JSON.stringify(data)
+        status: 300
       };
       const instance = shallow(<PlayList />).instance();
       instance.setError = jest.fn();
@@ -400,22 +390,31 @@ describe("PlayList", () => {
   });
 
   describe("sliceData", async () => {
-    let data;
-
-    await generateData()
-      .then(res => (data = JSON.parse(res.data)))
-      .catch(err => console.error(err));
+    const data = [
+      {
+        genre: "needs-based",
+        band: "Another",
+        year: 1999,
+        song: "qwerty"
+      },
+      {
+        genre: "random",
+        band: "Person",
+        year: 2000,
+        song: "song"
+      },
+      {
+        genre: "needs-based",
+        band: "Producer",
+        year: 1995,
+        song: "66"
+      }
+    ];
 
     it("should return sliced data", () => {
       const instance = shallow(<PlayList />).instance();
-      instance.setState({ rows: 10 });
-      expect(instance.sliceData(data).length).toEqual(10);
-    });
-
-    it("should return sliced data", () => {
-      const instance = shallow(<PlayList />).instance();
-      instance.setState({ rows: 66 });
-      expect(instance.sliceData(data).length).toEqual(66);
+      instance.setState({ rows: 2 });
+      expect(instance.sliceData(data).length).toEqual(2);
     });
   });
 

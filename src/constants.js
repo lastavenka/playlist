@@ -1,9 +1,3 @@
-const GENRES_COUNT = 10;
-const SONGS_COUNT = 500;
-const BANDS_COUNT = 50;
-const YEAR_MIN = 1986;
-const YEAR_MAX = 2019;
-
 const PLAYLIST_HEADERS = [{
   label: "Исполнитель",
   id: "band"
@@ -34,11 +28,6 @@ const PLAYLIST_DEFAULT_ROWS_COUNT = 10;
 const PLAYLIST_DEFAULT_SORT_BY = "band";
 
 export {
-  GENRES_COUNT,
-  SONGS_COUNT,
-  BANDS_COUNT,
-  YEAR_MIN,
-  YEAR_MAX,
   PLAYLIST_HEADERS,
   PLAYLIST_FILTERS,
   PLAYLIST_ROWS_COUNT,

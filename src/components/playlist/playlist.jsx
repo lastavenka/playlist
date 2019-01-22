@@ -4,7 +4,6 @@ import PlayListTable from "../playlist-table/playlist-table";
 import Filters from "../filters/filters";
 import ControlsSet from "../controls-set/controls-set";
 import Spinner from "../spinner/spinner";
-import generateData from "../../data";
 import {
   PLAYLIST_DEFAULT_ROWS_COUNT,
   PLAYLIST_DEFAULT_SORT_BY,
@@ -26,8 +25,6 @@ class Playlist extends Component {
       reverse: false,
       activeFilters: []
     };
-
-    this.generateData = generateData;
   }
 
   componentDidMount() {
@@ -35,17 +32,19 @@ class Playlist extends Component {
   }
 
   getPlaylistData() {
-    // fetch method imitation
-    this.generateData()
+    fetch("/api/songs/")
       .then(res => this.handleResponse(res))
-      .catch(err =>
-        this.setError("Что-то пошло не так. Пожалуйста, попробуйте позже")
-      );
+      .catch(err => {
+        this.setState({ loading: false });
+        this.setError("Что-то пошло не так. Пожалуйста, попробуйте позже");
+      });
   }
 
   handleResponse(res) {
     if (res.status === 200) {
-      this.setState({ data: JSON.parse(res.data), loading: false });
+      res.json().then(data => {
+        this.setState({ data, loading: false });
+      });
     } else {
       this.setState({ loading: false });
       this.setError("Что-то пошло не так. Пожалуйста, попробуйте позже");
