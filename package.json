@@ -5,7 +5,7 @@
   "homepage": "http://lastavenka.github.io/playlist",
   "dependencies": {
     "@material-ui/core": "^3.9.0",
-    "husky": "^1.3.1",
+    "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-paginate": "^6.2.1",
@@ -14,7 +14,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -36,11 +36,16 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "eslint-config-airbnb": "^17.1.0",
     "faker": "^4.1.0",
     "gh-pages": "^2.0.1",
     "lint-staged": "^8.1.0",
     "prettier": "^1.16.0",
-    "uid": "0.0.2"
+    "uid": "0.0.2",
+    "sinon": "^7.2.3",
+    "husky": "^1.3.1",
+    "jest-enzyme": "^7.0.1"
   }
 }
