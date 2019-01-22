@@ -26,6 +26,8 @@ class Playlist extends Component {
       reverse: false,
       activeFilters: []
     };
+
+    this.generateData = generateData;
   }
 
   componentDidMount() {
@@ -33,10 +35,11 @@ class Playlist extends Component {
   }
 
   getPlaylistData() {
-    generateData()
+    // fetch method imitation
+    this.generateData()
       .then(res => this.handleResponse(res))
       .catch(err =>
-        this.setError("Something went wrong, please try agein later")
+        this.setError("Что-то пошло не так. Пожалуйста, попробуйте позже")
       );
   }
 
@@ -44,7 +47,8 @@ class Playlist extends Component {
     if (res.status === 200) {
       this.setState({ data: JSON.parse(res.data), loading: false });
     } else {
-      this.setError("Something went wrong, please try agein later");
+      this.setState({ loading: false });
+      this.setError("Что-то пошло не так. Пожалуйста, попробуйте позже");
     }
   }
 
@@ -68,7 +72,7 @@ class Playlist extends Component {
     return slicedData;
   }
 
-  getFilters(data) {
+  getFilters() {
     let filtersList = [];
     let filtersIds = [];
 
@@ -141,7 +145,7 @@ class Playlist extends Component {
     if (!data.length) return;
 
     const filteredData = this.filterData();
-    const filtersList = this.getFilters(filteredData);
+    const filtersList = this.getFilters();
 
     return (
       <Fragment>
@@ -234,7 +238,7 @@ class Playlist extends Component {
     } else {
       activeFilters.push({ id: id, value: value });
     }
-    this.setState({ activeFilters });
+    this.setState({ activeFilters, currentPage: 1 });
   }
 
   render() {

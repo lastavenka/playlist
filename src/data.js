@@ -37,7 +37,7 @@ const generateData = () => {
   return new Promise(resolve => setTimeout(() => resolve({
     status: 200,
     data: JSON.stringify(data)
-  }), 2000));
+  }), 1500));
 }
 
 export default generateData;
