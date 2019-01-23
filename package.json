@@ -2,7 +2,7 @@
   "name": "playlist",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://lastavenka.github.io/playlist",
+  "proxy": "https://desolate-refuge-17418.herokuapp.com",
   "dependencies": {
     "@material-ui/core": "^3.9.0",
     "prop-types": "^15.6.2",
@@ -11,7 +11,6 @@
     "react-paginate": "^6.2.1",
     "react-scripts": "2.1.3"
   },
-  "proxy": "https://desolate-refuge-17418.herokuapp.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

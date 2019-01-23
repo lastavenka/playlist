@@ -32,7 +32,7 @@ class Playlist extends Component {
   }
 
   getPlaylistData() {
-    fetch("/api/songs/")
+    fetch("/api/songs")
       .then(res => this.handleResponse(res))
       .catch(err => {
         this.setState({ loading: false });
