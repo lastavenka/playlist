@@ -1,12 +1,12 @@
 Simple playlist table with pagination, sorting, variable rows quantity and filters.
 
-Visit the [deployed app](http://lastavenka.github.io/playlist).
+Visit the [deployed app](https://playlist-client.herokuapp.com/).
 
 Notes:
 
-* Material-UI package is used for styling (although I have experiense in creating of UI components from the scratch).
+* Material-UI package is used for styling (although I have experience in creating of UI components from the scratch).
 
-* Data for the table is fetched from a small test server, that has been created by me with Node.js for this project. Data is generated randomly for each request.
+* Data for the table is fetched from a small test server, that I've created for this project with Node.js. Data is generated randomly for each request.
 
 * All components are covered by unit tests.
 
